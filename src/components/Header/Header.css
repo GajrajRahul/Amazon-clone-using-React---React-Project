@@ -1,19 +1,24 @@
 .header {
-    height: 60px;
+    /* height: 60px; */
     background-color: #131921;
     display: flex;
+    padding: 0.5rem;
     align-items: center;
     position: sticky;
     top: 0;
     z-index: 100;
   }
+  .header_left{
+    display: flex;
+    align-items: center;
+  }
   
   .header-logo {
     width: 100px;
-    margin-left: 20px;
+    margin-left: 1rem;
     object-fit: contain;
-    margin-right: 20px;
-    margin-top: 18px;
+    /* margin-right: 20px; */
+    margin-top: 1rem;
   }
   
   .header-nav {
@@ -92,3 +97,11 @@
     margin-right: 10px;
   }
   
+  @media (orientation: portrait) {
+    .header {
+      flex-direction: column;
+    }
+    .search{
+      margin: 0.5rem 0;
+    }
+  }

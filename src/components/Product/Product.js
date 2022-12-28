@@ -1,47 +1,31 @@
-import React from 'react';
-import './Product.css';
-import {Link} from 'react-router-dom';
+import React from "react";
+import "./Product.css";
+import { Link } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { useDispatch } from 'react-redux';
-import { addToBasket } from '../../redux/action';
+import { useDispatch } from "react-redux";
+import { addToBasket } from "../../redux/basketSlice";
 
-const Product = ({id, title, image, price, rating, specification, detail}) => {
-
+const Product = ({item}) => {
   const dispatch = useDispatch();
-
-  const onAddItemToBakset = () => {
-    const item = {
-      id,
-      title,
-      image,
-      price,
-      rating,
-      specification,
-      detail,
-    };
-    dispatch(addToBasket(item));
-  };
-
   return (
     <div className="product">
       <div className="info">
-        <Link to={`/product/${id}`} className="title">
-          <p>{title}</p>
+        <Link to={`/product/${item.id}`} className="title">
+          <p>{item.title}</p>
         </Link>
         <p className="price">
-          <strong>$</strong>
-          <strong>{price}</strong>
+          <strong>&#8377;</strong>
+          <strong>{item.price}</strong>
         </p>
         <div className="rating">
-          {Array(rating)
-            .fill()
+          {Array(item.rating).fill()
             .map((_, index) => (
               <p key={index}>⭐</p>
             ))}
         </div>
       </div>
-      <img src={image} alt="" />
-      <button onClick={onAddItemToBakset}>
+      <img src={item.image} alt="" />
+      <button onClick={()=>dispatch(addToBasket(item))}>
         <i>
           <ShoppingCartOutlinedIcon />
         </i>
@@ -49,6 +33,6 @@ const Product = ({id, title, image, price, rating, specification, detail}) => {
       </button>
     </div>
   );
-}
+};
 
-export default Product
+export default Product;

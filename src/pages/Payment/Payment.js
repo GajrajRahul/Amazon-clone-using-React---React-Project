@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "./Payment.css";
 import { useSelector, useDispatch } from "react-redux";
-import CurrencyFormat from "react-currency-format";
+// import CurrencyFormat from "react-currency-format";
 import CheckoutProduct from "../../components/CheckoutProduct/CheckoutProduct";
 import { getBasketTotal } from "../../utils/BasketTotal";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { db } from "../../utils/firebase";
-// import { collection, doc } from "firebase/firestore";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "../../utils/axios";
-import { setBasketEmpty } from "../../redux/action";
+import { emptyBasket } from "../../redux/basketSlice";
+// import { setBasketEmpty } from "../../redux/actions";
 
 const Payment = () => {
-  const { basket, user } = useSelector((state) => state.data);
-
+  const { basket, user } = useSelector(state => state);
   let dispatch = useDispatch();
-
-  let history = useHistory();
-
-  const [succeded, setSucceded] = useState(false);
+  let navigate = useNavigate();
+  const [succeeded, setSucceeded] = useState(false);
   const [processing, setProcessing] = useState("");
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
@@ -27,7 +24,7 @@ const Payment = () => {
   useEffect(() => {
     const getClientSecret = async () => {
       const response = await axios({
-        method: "POST",
+        method: "post",
         url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
       });
       setClientSecret(response.data.clientSecret);
@@ -57,11 +54,11 @@ const Payment = () => {
             amount: paymentIntent.amount,
             created: paymentIntent.created,
           });
-        setSucceded(true);
+        setSucceeded(true);
         setError(null);
         setProcessing(false);
-        dispatch(setBasketEmpty());
-        history.replace("/orders");
+        dispatch(emptyBasket());
+        navigate("/orders");
       });
   };
 
@@ -69,7 +66,6 @@ const Payment = () => {
     setDisabled(e.empty);
     setError(e.error ? e.error.message : "");
   };
-
   return (
     <div className="payment">
       <div className="payment-container">
@@ -79,26 +75,19 @@ const Payment = () => {
             <h3>Delivery Address</h3>
           </div>
           <div className="payment-address">
-            <p>{user && user?.email.slice(0, user?.email.indexOf("@"))}</p>
-            <p>123 React Street</p>
-            <p>Mumbai, India</p>
+            <p>{user && user.email}</p>
+            <p>House no. 230 Near Botnical Garden</p>
+            <p>Lucknow, India</p>
           </div>
         </div>
         <div className="payment-section">
           <div className="payment-title">
-            <h3>Review itemns and Delivery address</h3>
+            <h3>Review items and Delivery</h3>
           </div>
           <div className="payment-items">
             {basket &&
               basket.map((item) => (
-                <CheckoutProduct
-                  key={item.id}
-                  id={item.id}
-                  title={item.title}
-                  image={item.image}
-                  price={item.price}
-                  rating={item.rating}
-                />
+                <CheckoutProduct item={item} />
               ))}
           </div>
         </div>
@@ -110,19 +99,8 @@ const Payment = () => {
             <form onSubmit={handleSubmit}>
               <CardElement onChange={handleChange} />
               <div className="payment-priceContainer">
-                <CurrencyFormat
-                  renderText={(value) => (
-                    <>
-                      <h3>Order Total: {value}</h3>
-                    </>
-                  )}
-                  decimalScale={2}
-                  value={getBasketTotal(basket)}
-                  displayType={"text"}
-                  thousandSeparator={true}
-                  prefix={"$"}
-                />
-                <button disabled={processing || disabled || succeded}>
+                  <h3>Order Total: {getBasketTotal(basket)}</h3>
+                <button disabled={processing || disabled || succeeded}>
                   <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
                 </button>
               </div>

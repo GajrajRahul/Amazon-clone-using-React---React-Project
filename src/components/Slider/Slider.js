@@ -1,33 +1,30 @@
-import React, {useState, useEffect} from 'react';
-import './Slider.css';
+import React, { useState, useEffect } from "react";
+import "./Slider.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-const Slider = ({ images }) => { // here images is banner images
-    const [index, setIndex] = useState(0);
+const Slider = ({ images }) => {
+  const [index, setIndex] = useState(0);
 
-    useEffect(() => {
-        const lastIndex = images.length - 1;
+  useEffect(() => {
+    const lastIndex = images.length - 1;
+    if (index < 0) {
+      setIndex(lastIndex);
+    }
+    if (index > lastIndex) {
+      setIndex(0);
+    }
+  }, [index, images]);
 
-        if(index < 0) {
-            setIndex(lastIndex)
-        }
-        if (index > lastIndex) {
-          setIndex(0);
-        }
-    }, [index, images]) // useEffect run when index is changes or there are more images to show from banner
+  useEffect(() => {
+    let slider = setInterval(() => {
+      setIndex(index + 1);
+    }, 5000);
 
-    // if user is not clicking on slider(forward or backword) then simply change slider images in every 5 sec
-    // and we have to write cleanup function also after using setInterval to clear the interval 
-    useEffect(() => {
-        let slider = setInterval(() => {
-            setIndex(index + 1);
-        }, 5000)
-
-        return () => {
-            clearInterval(slider);
-        }
-    }, [index])
+    return () => {
+      clearInterval(slider);
+    };
+  }, [index]);
 
   return (
     <div className="section">
@@ -58,6 +55,6 @@ const Slider = ({ images }) => { // here images is banner images
       </div>
     </div>
   );
-}
+};
 
-export default Slider
+export default Slider;

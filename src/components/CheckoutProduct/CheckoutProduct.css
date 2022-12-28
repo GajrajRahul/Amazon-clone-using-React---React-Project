@@ -21,6 +21,7 @@
   
   .checkout-product-rating {
       display: flex;
+    margin-bottom: 1rem;
   }
   
   .checkout-product-info > button {
@@ -36,3 +37,9 @@
   i {
     vertical-align: middle;
   }
+
+.button-action{
+  width: fit-content !important;
+  padding: 5px 1rem !important;
+  
+}

@@ -1,47 +1,31 @@
-import React from 'react';
-import './SubTotal.css';
-import CurrencyFormat from 'react-currency-format';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { getBasketTotal } from '../../utils/BasketTotal';
+import React from "react";
+import "./SubTotal.css";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getBasketTotal, getTotalQty } from "../../utils/BasketTotal";
 
 const SubTotal = () => {
-    const {basket, user} = useSelector(state => state.data);
-    let history = useHistory();
-
-    const handleCheckout = () => {
-        if(user) {
-            history.push('/payment')
-        }
-        else {
-            history.push('./login')
-        }
+  const { basket, user } = useSelector(state=>state);
+  
+  let totalAmount = getBasketTotal(basket);
+  let navigate = useNavigate();
+  const handleCheckout = () => {
+    if (user) {
+      navigate("/payment");
+    } else {
+      navigate("/login");
     }
-
+  };
   return (
-    <div className='subtotal'>
-      <CurrencyFormat
-      renderText={(value) => (
-        <>
-        <p>
-            Subtotal ({basket.length} items) : <strong>{value}</strong>
-        </p>
-        <small className='subtotal-gift'>
-            <input type='checkbox'/>
-            This orders contain a gift
-        </small>
-        </>
-        )}
-        decimalScale={2}
-        value={getBasketTotal(basket)}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'$'}
-        />
-      <button onClick={handleCheckout}>Proceed to Checkout</button>
+    <div className="subtotal">
+      <p>SubTotal ({getTotalQty(basket)} items) : <strong>&#8377; {totalAmount}</strong></p>
+      <small className="subtotal-gift">
+        <input type="checkbox" />
+        This orders contain a gift
+      </small>
+      <button onClick={handleCheckout} className="hoverBtn">Proceed to Checkout</button>
     </div>
-  )
+  );
 };
 
-
-export default SubTotal
+export default SubTotal;

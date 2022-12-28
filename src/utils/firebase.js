@@ -1,24 +1,34 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+// import firebase from "firebase";
+import {initializeApp} from "firebase/app";
+import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+// import {auth} from 'firebase/auth'
+const db = require("firebase/database")
 
-const db = require("firebase/database");
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// const firebaseConfig = {
+//   apiKey: "AIzaSyA1EavoEIILWVphCeSOTYXKh1PQHNBWbVc",
+//   authDomain: "clone-v77.firebaseapp.com",
+//   databaseURL: "https://clone-v77-default-rtdb.firebaseio.com",
+//   projectId: "clone-v77",
+//   storageBucket: "clone-v77.appspot.com",
+//   messagingSenderId: "722997881932",
+//   appId: "1:722997881932:web:4fa31d7e96dcfd77b598e9",
+//   measurementId: "G-EDP45CZJ0D"
+// };
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBYCKGR4OQHscz0mk7IfK1HgL5oY4VxL-A",
-  authDomain: "clone-10b46.firebaseapp.com",
-  projectId: "clone-10b46",
-  storageBucket: "clone-10b46.appspot.com",
-  messagingSenderId: "778865912482",
-  appId: "1:778865912482:web:409feb7148f44b33df05fb",
+  apiKey: "AIzaSyBA9FXPnmpDwgeD7VHIvnDb5I4F3OGbir8",
+  authDomain: "amz-clone-806a0.firebaseapp.com",
+  projectId: "amz-clone-806a0",
+  storageBucket: "amz-clone-806a0.appspot.com",
+  messagingSenderId: "644345386019",
+  appId: "1:644345386019:web:5485fe233c2931ad010d96",
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
+
+// const db = firebaseApp.firestore();
 const auth = getAuth();
 
-export {app, auth, db};
+// const auth = require('firebase/auth');
+export { db, auth ,createUserWithEmailAndPassword,signInWithEmailAndPassword};

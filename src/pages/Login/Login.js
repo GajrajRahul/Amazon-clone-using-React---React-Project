@@ -1,38 +1,44 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
+import { Link, useNavigate } from "react-router-dom";
 import AmazonLogo from "../../Amazon_Logo.png";
-import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { loginInitiate } from "../../redux/action";
+// import { loginInitiate } from "../../redux/actions";
+import { auth,signInWithEmailAndPassword } from "../../utils/firebase";
+import { login } from "../../redux/basketSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const {user} = useSelector((state) => state.data);
+  const user  = useSelector(state => state.user);
   let dispatch = useDispatch();
-  let history = useHistory();
-
+  let navigate = useNavigate();
   useEffect(() => {
-    if(user) {
-      history.push('/');
+    if (user) {
+      navigate("/");
     }
-  }, [user, dispatch]);
+  }, [user]);
 
   const signIn = (e) => {
     e.preventDefault();
-    dispatch(loginInitiate(email, password));
-    setEmail('');
+    if(!email || !password) return alert('please fill email and password');
+    signInWithEmailAndPassword(auth,email, password)
+      .then(({ user }) => {
+        dispatch(login(user));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setEmail('')
     setPassword('');
   };
-
   return (
     <div className="login">
       <Link to="/">
-        <img src={AmazonLogo} alt="logo" className="login-logo" />
+        <img src={AmazonLogo} className="login-logo" alt="logo" />
       </Link>
       <div className="login-container">
-        <h1>Sing In</h1>
+        <h1>Sign In</h1>
         <form>
           <h5>E-Mail</h5>
           <input
@@ -56,7 +62,7 @@ const Login = () => {
         </p>
       </div>
       <p>New to Amazon ?</p>
-      <Link to='/register'>
+      <Link to="/register">
         <button className="login-register">Create Your Amazon Account</button>
       </Link>
     </div>
