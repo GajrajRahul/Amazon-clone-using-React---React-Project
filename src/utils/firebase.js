@@ -2,7 +2,7 @@
 import {initializeApp} from "firebase/app";
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 // import {auth} from 'firebase/auth'
-const db = require("firebase/database")
+// const db = require("firebase/database")
 
 const firebaseConfig = {
   apiKey: "AIzaSyBA9FXPnmpDwgeD7VHIvnDb5I4F3OGbir8",
