@@ -4,18 +4,6 @@ import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword } fro
 // import {auth} from 'firebase/auth'
 const db = require("firebase/database")
 
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyA1EavoEIILWVphCeSOTYXKh1PQHNBWbVc",
-//   authDomain: "clone-v77.firebaseapp.com",
-//   databaseURL: "https://clone-v77-default-rtdb.firebaseio.com",
-//   projectId: "clone-v77",
-//   storageBucket: "clone-v77.appspot.com",
-//   messagingSenderId: "722997881932",
-//   appId: "1:722997881932:web:4fa31d7e96dcfd77b598e9",
-//   measurementId: "G-EDP45CZJ0D"
-// };
-
 const firebaseConfig = {
   apiKey: "AIzaSyBA9FXPnmpDwgeD7VHIvnDb5I4F3OGbir8",
   authDomain: "amz-clone-806a0.firebaseapp.com",
